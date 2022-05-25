@@ -26,7 +26,7 @@ app.use(express.static("public"));
 
 const auth_url = "https://accounts.spotify.com/authorize";
 const token_url = "https://accounts.spotify.com/api/token";
-const redirect_url = "http://localhost:3000/access"; //TODO: mudar redirect_url quando pusermos o site online
+const redirect_url = "https://vi-projeto2-final.herokuapp.com/access"; //TODO: mudar redirect_url quando pusermos o site online
 
 let spotifyApi;
 
