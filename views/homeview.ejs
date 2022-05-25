@@ -9,21 +9,302 @@
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <title>Spotify Songs' Specs</title>
 </head>
 
 <body>
   <%- include("partials/header") -%>
-  <h1>You're now on the home view!</h1>
-  <h2>Playlists' Names</h2>
+  <div id="esquerdo">
+    <!--    CANTO SUPERIOR ESQUERDO    -->
+    <div id="menu">
+      <!--    TITLE / ABOUT    -->
+      <h1 id="title_app" class="inline">Spotify Song's Specs 2.0</h1>
+      <img id="info_about" class="inline" src="../images/icon_info.png" height="116" width="116" />
 
-  <div id="Graph1">
-    <img src="assets/base_grafico_circular-01.png" alt="" aria-hidden>
+      <!--    SWITCHES    -->
+      <div>
+        <div id="switch_years_playlist" class="inline">
+          <p class="inline">Years View</p>
+          <label class="switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+          <p class="inline">Playlists View</p>
+        </div>
+
+        <div id="switch_global_detailed" class="inline">
+          <p class="inline">Global View</p>
+          <label class="switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+          <p class="inline">Detailed View</p>
+        </div>
+      </div>
+
+      <!--    MENU GENRES    -->
+      <div id="menu_genres">
+        <p>Choose one or more to see with more detail:</p>
+        <div id="option_genres">
+          <div class="coluna">
+            <div id="rock" class="inline genre_option">
+              <span id="dot_rock" class="dot"></span>
+              <p class="inline">Rock</p>
+            </div>
+            <br>
+            <div id="country" class="inline genre_option">
+              <span id="dot_country" class="dot"></span>
+              <p class="inline">Country</p>
+            </div>
+          </div>
+          <div class="coluna">
+            <div id="funk" class="inline genre_option">
+              <span id="dot_funk" class="dot"></span>
+              <p class="inline">Funk</p>
+            </div>
+            <br>
+            <div id="indie" class="inline genre_option">
+              <span id="dot_indie" class="dot"></span>
+              <p class="inline">Indie</p>
+            </div>
+          </div>
+          <div class="coluna">
+            <div id="rb" class="inline genre_option">
+              <span id="dot_rb" class="dot"></span>
+              <p class="inline">R&B</p>
+            </div>
+            <br>
+            <div id="jazz" class="inline genre_option">
+              <span id="dot_jazz" class="dot"></span>
+              <p class="inline">Jazz</p>
+            </div>
+          </div>
+          <div class="coluna">
+            <div id="classical" class="inline genre_option">
+              <span id="dot_classical" class="dot"></span>
+              <p class="inline">Classical</p>
+            </div>
+            <br>
+            <div id="pop" class="inline genre_option">
+              <span id="dot_pop" class="dot"></span>
+              <p class="inline">Pop</p>
+            </div>
+          </div>
+          <div id="all" class="inline genre_option">
+            <span id="dot_all" class="dot"></span>
+            <p class="inline">All</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--    CANTO INFERIOR ESQUERDO    -->
+    <div id="menu_global">
+      <div id="dropdown_global_close">
+        <p class="inline">Select the years that you want to compare</p>
+        <img id="seta_dropdown" class="inline" src="../images/seta.png" height="45" width="69" />
+      </div>
+      <div class="dropdown_global">
+        <form action="/action_page.php" id="checkboxes_form">
+        </form>
+      </div>
+      <div>
+        <div>
+          <div class="inline miniatura">
+            <p></p>
+            <!--MUDAR ANO CODE-->
+            <img src="assets/imagem_miniaturas.png" alt="" width="552" height="552">
+            <!--D3-->
+          </div>
+          <div class="inline miniatura">
+            <p></p>
+            <!--MUDAR ANO CODE-->
+            <img src="assets/imagem_miniaturas.png" alt="" width="552" height="552">
+            <!--D3-->
+          </div>
+          <div class="inline miniatura">
+            <p></p>
+            <!--MUDAR ANO CODE-->
+            <img src="assets/imagem_miniaturas.png" alt="" width="552" height="552">
+            <!--D3-->
+          </div>
+          <div class="inline miniatura">
+            <p></p>
+            <!--MUDAR ANO CODE-->
+            <img src="assets/imagem_miniaturas.png" alt="" width="552" height="552">
+            <!--D3-->
+          </div>
+          <div class="inline miniatura">
+            <p></p>
+            <!--MUDAR ANO CODE-->
+            <img src="assets/imagem_miniaturas.png" alt="" width="552" height="552">
+            <!--D3-->
+          </div>
+        </div>
+        <div>
+          <div class="inline miniatura">
+            <p></p>
+            <!--MUDAR ANO CODE-->
+            <img src="assets/imagem_miniaturas.png" alt="" width="552" height="552">
+            <!--D3-->
+          </div>
+          <div class="inline miniatura">
+            <p></p>
+            <!--MUDAR ANO CODE-->
+            <img src="assets/imagem_miniaturas.png" alt="" width="552" height="552">
+            <!--D3-->
+          </div>
+          <div class="inline miniatura">
+            <p></p>
+            <!--MUDAR ANO CODE-->
+            <img src="assets/imagem_miniaturas.png" alt="" width="552" height="552">
+            <!--D3-->
+          </div>
+          <div class="inline miniatura">
+            <p></p>
+            <!--MUDAR ANO CODE-->
+            <img src="assets/imagem_miniaturas.png" alt="" width="552" height="552">
+            <!--D3-->
+          </div>
+          <div class="inline miniatura">
+            <p></p>
+            <!--MUDAR ANO CODE-->
+            <img src="assets/imagem_miniaturas.png" alt="" width="552" height="552">
+            <!--D3-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="menu_detail">
+
+    </div>
   </div>
-  <div id="Graph2">
-    <img src="assets/base_grafico_circular-01.png" alt="" aria-hidden>
+
+  <!--    DIREITA    -->
+  <div id="global">
+    <div id="if_year_view_g">
+      <h3 class="titulo_global">Playlist Name</h3>
+      <!--<h3 class="legenda_global">Listened Tracks’ genres grouped by year</h3>-->
+      <div id="div_variable_forms">
+        <form action="/action_page.php" class="variable_form inline">
+          <label for="xVariable">X:</label>
+          <select name="xVariable" id="xVariable">
+            <option value="">Select the variable</option>
+            <option value="popularity">Popularity</option>
+            <option value="liveness">Liveness</option>
+            <option value="energy">Energy</option>
+            <option value="acousticness">Acousticness</option>
+            <option value="danceability">Danceability</option>
+            <option value="valence">Valence</option>
+          </select>
+        </form>
+        <!--    DROPDOWN Y VARIABLE    -->
+        <form action="/action_page.php" class="variable_form inline">
+          <label for="yVariable">Y:</label>
+          <select name="yVariable" id="yVariable">
+            <option value="">Select the variable</option>
+            <option value="popularity">Popularity</option>
+            <option value="liveness">Liveness</option>
+            <option value="energy">Energy</option>
+            <option value="acousticness">Acousticness</option>
+            <option value="danceability">Danceability</option>
+            <option value="valence">Valence</option>
+          </select>
+        </form>
+      </div>
+      <div id="div_global_year">
+        <div id="Graph1">
+        </div>
+        <!--<img id="img_global_year" src="assets/base_grafico_circular-01.png" alt="" aria-hidden>-->
+        <!--D3-->
+        <!--<svg id="svg_global_year">
+        </svg>-->
+      </div>
+      <img id="agulha" src="../images/agulha.png" height="1682" width="132" />
+      <div id="div_legenda_direita">
+        <h3 class="inline legenda_global">Tracks' popularity</h3>
+        <!--MUDAR ANO CODE-->
+        <img id="info_track" class="inline" src="../images/icon_info.png" height="116" width="116" />
+      </div>
+      <div class="div_info"></div>
+    </div>
+
+    <div id="if_playlist_view_g">
+      <h3 class="titulo_global">Playlist Name</h3>
+      <!--MUDAR ANO CODE-->
+      <span></span>
+      <!--D3-->
+      <div class="div_legenda_global">
+        <h3 class="legenda_global">Listened Tracks’ genres grouped by playlist</h3>
+      </div>
+    </div>
   </div>
+
+  <div id="detail">
+    <h3 id="if_year_view_d">Year</h3>
+
+
+    <!--MUDAR ANO CODE-->
+    <h3 id="if_playlist_view_d">Playlist Name</h3>
+    <!--MUDAR ANO CODE-->
+    <!--    DROPDOWN X VARIABLE    -->
+
+  </div>
+  <div class="div_song"></div>
+  <div class="div_info_about">
+    <div id="aboutProject">
+      <h2>About the project</h2>
+      <div id="description_project">
+        <p>Spotify Songs’ Specs 2.0 is a Spotify data visualization project, which allows to demonstrate the musical
+          taste of a
+          listener by viewing a set of information coming from the API of that streaming platform
+          of songs.</p>
+        <p>This project was developed within the scope of the Information Visualization subject of the Master of
+          Design and Multimedia at the University of Coimbra. </p>
+        <br> <br>
+        <div id="div_inspiration">
+          <p>Inspiration:</p>
+          <a href="https://kenziemurphy.github.io/vinyl/">
+            <p>VINYL - Music Info Visualization</p>
+          </a>
+          <a href="https://galaxy-of-covers.interactivethings.io/">
+            <p>Galaxy of Covers</p>
+          </a>
+          <a href="https://www.behance.net/gallery/122113475/Spotify-ID?tracking_source=search_projects%7Cdiogo">
+            <p>Spotify ID on Behance</p>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div id="aboutCreators">
+      <h2>About the creators</h2>
+      <div id="div_iris" class="inline">
+        <p>Íris Pereira</p>
+        <p> 22 anos</p>
+        <p> designer</p>
+
+        <img id="imageIris" src="../assets/iris.jpeg" height="1364" width="1364" alt="imageIris"><br>
+        <a href="https://www.behance.net/irispintop"><img id="behanceIris" src="../assets/behance.png" height="80" width="80" alt="behance"></a>
+        <a href="https://www.linkedin.com/in/%C3%ADris-pereira-1b4b5b216/"><img id="linkedinIris" src="../assets/linkedin.png" height="78" width="78" alt="linkedin"></a>
+      </div>
+      <div id="div_luis" class="inline">
+        <p>Luís Monteiro</p>
+        <p>22 anos</p>
+        <p>designer</p>
+        <img id="imageLuis" src="../assets/luis.jpeg" height="1068" width="1068" alt="imageLuis"><br>
+        <a href="https://www.behance.net/luismonteiro99"><img id="behanceLuis" src="../assets/behance.png" height="80" width="80" alt="behance"></a>
+        <a href=" https://www.linkedin.com/in/luismonteiro99/"><img id="linkedinLuis" src="../assets/linkedin.png" height="78" width="78" alt="linkedin"></a>
+      </div>
+    </div>
+  </div>
+
 
   <span id="variable1" hidden style="display: none"><%- JSON.stringify(playlists) %></span>
   <span id="variable2" hidden style="display: none"><%- JSON.stringify(savedTracks) %></span>
@@ -31,7 +312,7 @@
   <%- include("partials/footer") -%>
 
   <script type="text/javascript" src="js/script.js"></script>
-  <script type="text/javascript" src="js/visualization.js"></script>
+  <!--<script type="text/javascript" src="js/visualization.js"></script>-->
 
 </body>
 

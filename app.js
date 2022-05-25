@@ -216,60 +216,79 @@ async function processSavedTracks(i, limit, total_tracks) {
       limit: limit,
       offset: offset
     })
-    .then(function(data) {
-      //console.log(i);
-      //console.log(data);
-      let savedTracks = [];
-      (data.body.items).map((track, j) => {
-        //console.log("Track:", track);
-        if (user_savedTracks.length + savedTracks.length < total_tracks) {
-          let filtered_track = {
-            key: offset + j,
-            id: track.track.id,
-            name: (track.track.id === "4hQYCCSzI1YJYymBvvbDMn") ? "DEUBODE" : track.track.name,
-            popularity: track.track.popularity,
-            explicit: track.track.explicit,
-            duration: track.track.duration_ms,
-            artists: track.track.artists,
-            saved_date: track.added_at
-          }
+    .then(async function(data) {
+        //console.log(i);
+        //console.log(data);
+        let savedTracks = [];
+        let track_ids = [];
+        await (data.body.items).forEach((track, j) => {
+          //console.log("Track:", track);
+          track_ids.push(track.track.id)
+          if (user_savedTracks.length + savedTracks.length < total_tracks) {
+            let filtered_track = {
+              key: offset + j,
+              id: track.track.id,
+              name: (track.track.id === "4hQYCCSzI1YJYymBvvbDMn") ? "DEUBODE" : track.track.name,
+              popularity: track.track.popularity,
+              explicit: track.track.explicit,
+              duration: track.track.duration_ms,
+              artists: track.track.artists,
+              saved_date: track.added_at
+            }
 
-          filtered_track.artists.map((artist, j) => {
-            let rand = Math.floor(Math.random() * 8);
-            filtered_track.artists[j] = {
-              id: artist.id,
-              name: artist.name,
-              genre: genres[rand]
-            };
-          });
-
-          //TODO: descomentar se um dia quisermos fazer isto com os géneros verdadeiros dos artistas
-          /*let getArtists = async function() {
-            let artists = [];
-            await track.track.artists.map(artist => {
-              artists.push({
+            filtered_track.artists.forEach((artist, j) => {
+              let rand = Math.floor(Math.random() * 8);
+              filtered_track.artists[j] = {
                 id: artist.id,
-                name: artist.name
-              });
+                name: artist.name,
+                genre: genres[rand]
+              };
             });
-            //console.log("Artists:", artists);
-            return artists;
+
+            //TODO: descomentar se um dia quisermos fazer isto com os géneros verdadeiros dos artistas
+            /*let getArtists = async function() {
+              let artists = [];
+              await track.track.artists.map(artist => {
+                artists.push({
+                  id: artist.id,
+                  name: artist.name
+                });
+              });
+              //console.log("Artists:", artists);
+              return artists;
+            }
+            let saveArtists = async function() {
+              let artists = await getArtists();
+              //console.log("Artists:", artists);
+              filtered_track.artists = artists;
+            }
+            saveArtists();*/
+            savedTracks.push(filtered_track);
           }
-          let saveArtists = async function() {
-            let artists = await getArtists();
-            //console.log("Artists:", artists);
-            filtered_track.artists = artists;
-          }
-          saveArtists();*/
-          savedTracks.push(filtered_track);
-        }
-      });
-      return savedTracks;
-    }, function(err) {
-      console.log('Something went wrong!', err);
-    }).then(function(savedTracks) {
+        });
+
+        let track_offset = 0;
+        await spotifyApi.getAudioFeaturesForTracks(track_ids)
+          .then(data => {
+            //console.log("Data:", data);
+
+            data.body.audio_features.forEach((instance, index) => {
+              savedTracks[track_offset + index].energy = instance.energy;
+              savedTracks[track_offset + index].valence = instance.valence;
+              savedTracks[track_offset + index].liveness = instance.liveness;
+              savedTracks[track_offset + index].acousticness = instance.acousticness;
+              savedTracks[track_offset + index].danceability = instance.danceability;
+            });
+
+            track_offset += data.body.audio_features.length;
+          });
+        return savedTracks;
+      },
+      function(err) {
+        console.log('Something went wrong!', err);
+      }).then(function(savedTracks) {
       //console.log("Saved Tracks:", savedTracks);
-      savedTracks.map(track => user_savedTracks.push(track));
+      savedTracks.forEach(track => user_savedTracks.push(track));
       //console.log("User length: " + user_savedTracks.length);
     });
 }
@@ -319,7 +338,7 @@ async function getPlaylists(total_playlists, user_id, limit) {
           console.log('Something went wrong!', err);
         }).then(function(playlists) {
         //console.log("Playlists:", playlists);
-        playlists.map(playlist => user_playlists.push(playlist));
+        playlists.forEach(playlist => user_playlists.push(playlist));
         //console.log("Playlists length: " + user_playlists.length);
       });
   }
@@ -338,10 +357,28 @@ async function getPlaylistInfo(id, limit) {
     playlist_info.tracks = playlist_data.body.tracks.items;
     //console.log("Playlist Tracks:", playlist_info.tracks);
 
+    let track_ids = [];
     for (let i = 0; i < playlist_info.tracks.length; i++) {
+      track_ids.push(playlist_info.tracks[i].track.id);
       let arranged_track = await getPlaylistTrackInfo(i, playlist_info.tracks[i].track);
       playlist_info.tracks[i] = arranged_track;
     }
+
+    let track_offset = 0;
+    await spotifyApi.getAudioFeaturesForTracks(track_ids)
+      .then(data => {
+        //console.log("Data:", data);
+
+        data.body.audio_features.forEach((instance, index) => {
+          playlist_info.tracks[track_offset + index].energy = instance.energy;
+          playlist_info.tracks[track_offset + index].valence = instance.valence;
+          playlist_info.tracks[track_offset + index].liveness = instance.liveness;
+          playlist_info.tracks[track_offset + index].acousticness = instance.acousticness;
+          playlist_info.tracks[track_offset + index].danceability = instance.danceability;
+        });
+
+        track_offset += data.body.audio_features.length;
+      });
 
     //console.log("Info Playlist Tracks:", playlist_info);
   });
@@ -361,7 +398,7 @@ async function getPlaylistTrackInfo(i, track) {
     artists: track.artists
   };
 
-  filtered_track.artists.map((artist, j) => {
+  filtered_track.artists.forEach((artist, j) => {
     let rand = Math.floor(Math.random() * 8);
     filtered_track.artists[j] = {
       id: artist.id,
@@ -391,6 +428,8 @@ async function getPlaylistTrackInfo(i, track) {
   }
   saveArtists(track.artists);*/
 
+
+
   return filtered_track;
 }
 
@@ -407,7 +446,7 @@ async function getArtistsInfo(artist_ids) {
             let artists = data.body.artists;
             //console.log("Artists:", artists);
             let all_info = [];
-            artists.map(artist => {
+            artists.forEach(artist => {
               let only_needed_artist_info = {
                 id: artist.id,
                 name: artist.name,
